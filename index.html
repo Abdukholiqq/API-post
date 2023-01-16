@@ -11,21 +11,31 @@
 </head>
 
 <body>
-    <a style="text-decoration: none; z-index: 500; margin-top: -90px; position: fixed; margin-left: 800px; background-color: gold; padding: 5px; border-radius: 8px;"
-        href="./Admin.html">Admin</a>
+    <a class="btn bg-primary m-5" href="./pages/Admin.html">Admin</a>
+    <a class="btn sign bg-info">Sign up</a>
+    <div style="display: none;" class="sign-app">
+        
+            <form action="#" aria-required="true" method="post" class="container form d-flex flex-column w-25 text-center mt-5  gap-2 p-5 rounded-4 text-white" style=" background-color: #44405a;" >
+                <h1>Sign Up</h1>
+                <label for="email"  required="true">E-pochta manzilingizni kiriting</label>
+                <input type="email" required="true" name="e-mail" id="email" placeholder="   e-mail">
+                <label for="number">Telefon raqmingizni kiriting</label>
+                <input type="number" name="phone" id="number" placeholder="  xxx xx xxx xx xx">
+                <label for="password">Parolingizni kiriting</label>
+                <input type="password" name="password" id="password" placeholder="  *******">
+                <button type="submit"  class="sign-up btn p-2 mt-3 bg-primary rounded-4 border-0">Sign Up</button>
+            </form>
+    
+    </div>
 
-<div class="container" style="margin-top: 120px;">
+    <div class="container" style="margin-top: 120px;">
 
+        <div class="top bg-info" style="height: 150px;">
+        </div>
 
-<div class="top">
-</div>
+        <main class="main d-flex flex-wrap justify-content-center gap-3 mb-4 mt-5"></main>
 
-
-
-
-<main class="main d-flex flex-wrap justify-content-center gap-5 mt-5"></main>
-
-</div>
+    </div>
 
 
 

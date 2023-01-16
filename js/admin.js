@@ -1,100 +1,89 @@
-// export default fetch ;
-import { findElement } from "./findElement.js";
+
+ import { findElement } from "./findElement.js";
+// import {findElement} from "../js/findElement.js"
 const elMain = findElement(".main");
+const elTop = findElement(".top");
+const TopBtn = findElement(".top-btn")
 const addForm = findElement("#form");
 const addBtn = findElement("#add-todo-btn");
-const input = findElement("input")
-let films = [];
 
-
-fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data`)
-    .then(res => res.json())
-    .then(data => {
-        films = data
-        console.log(data, "14-qator");
-
-        renderObj(films);
+//   >>   PUSH   <<
+addForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let elTitle =  e.target.title.value;
+    let elSubtitle = e.target.subtitle.value;
+    let elCreatedAt =  e.target.createdAt.value;
+    let elImg = e.target.image.value;
+ 
+    const newTodo = {
+        title: elTitle,
+        subtitle: elSubtitle,
+        createdAt: elCreatedAt,
+        avatar: elImg,
+    }
+ 
+    fetch("https://639f72975eb8889197fce7ef.mockapi.io/post/data", {
+        method: "POST",
+        body:JSON.stringify(newTodo),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+        },
+    }).then((res) => res.json())
+    .then((data) => {
+            window.location.reload()
+        })
     })
-function renderObj(films) {
-    const fragment = document.createDocumentFragment();
-    films.forEach(element => {
-        const card = document.createElement("div")
-        card.className = "card w-25  p-2 bg-secondary bg-opacity-50 "
+
+    // GET
+    fetch("https://639f72975eb8889197fce7ef.mockapi.io/post/data")
+    .then(res => res.json())
+    .then(data =>  data.forEach(element => {
+       
+        const card = document.createElement("div");
+        card.className = "card w-25  p-2 bg-secondary shadow bg-opacity-50 "
         card.innerHTML = `
-        <img class="w-100" style="min-height: 100px" src="${element.avatar}"></img>
+        <img class="w-100" style="height: 400px" src="${element.avatar}"></img>
         <div class="text-center p-2" >
         <h3 class="fs-5">${element.title}<h3/>
-        <p class="fs-5">${element.subtitle}<p/>
-    <p class="fs-5">${element.createdAt}<p/>
+        <hr/>
+        <p class="fs-6">${element.subtitle}<p/>
+        <hr/>
+    <p class="fs-6">${element.createdAt}<p/>
     </div>
     <div class="d-flex justify-content-center gap-3">
        <button data-id="${element.id}"  class="delate w-50  rounded-2 bg-danger border-0" type="reset">Delete</button>
        <button  data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${element.id}" class="edit w-50 rounded-2 bg-success bg-opacity-75  border-0">Edit</button>
    </div>
-       `
+`
+        elMain.prepend(card)
+    }));
 
-        card.appendChild(fragment)
-        elMain.appendChild(card)
-    });
+//  OVOZ ORQALI POST YOZISH
+// const body = document.querySelector("body");
+// const h1 =  document.createElement("h1");
+// const recognition = new webkitSpeechRecognition();
+//     recognition.lang = "en-US";
+//     recognition.interimResults = false;
+//     recognition.maxAlternatives = 1;
+    
+//     document.body.onclick = function (){
+//         recognition.start();
+//         console.log('Ready to receive a color command.');
+//     };
+//     recognition.onresult = function(event){
+//         const color = event.results[0][0].transcript;
+//         const ovoz = event.results[0][0].transcript;
+//         h1.textContent = ovoz;
+//         body.prepend(h1)
+//         body.style.backgroundColor = color; 
+//     }
+ 
 
-}
-
-//   >>   PUSH   <<
-addForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    elMain.textContent = "";
-    const elTitle = findElement(".title");
-    const elSubtitle = findElement(".subtitle");
-    const elDate = findElement(".date");
-    const elImg = findElement(".image");
-
-    console.log(elTitle.value, elSubtitle.value, elDate.value, elImg.value)
-    // const  input = e.target.data;
-    const newTodo = {
-        title: elTitle.value,
-        subtitle: elSubtitle.value,
-        createdAt: elDate.value,
-        avatar: elImg.value,
-        id: films.length + 1
-
-    }
-    console.log(newTodo);
-    films.push(newTodo)
-    // console.log(films);
-    // let id = films.length + 1 ;
-    fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "aplication/json",
-        },
-        body: JSON.stringify(newTodo)
-    }).then((res) => res.json())
-        .then((data) => {
-
-            // data.push(films)
-            console.log(data);
-            console.log(films);
-            renderObj(films)
-            // window.location.reload()
-        })
-    })
-renderObj(films)
-
-
-
-
-
-
-
-
-// delate \\
+// DELETE \\
 elMain.addEventListener("click", function (e) {
     const TargetT = e.target;
     const id = e.target.dataset.id;
-    // console.log(id);
     if (TargetT.matches(".delate")) {
-
-
         fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
             method: "DELETE",
             headers: {
@@ -106,7 +95,7 @@ elMain.addEventListener("click", function (e) {
 
     }
 
-    //  edit \\
+    //  EDIT \\
     if (TargetT.matches(".edit")) {
         const id = e.target.dataset.id;
         console.log(id);
@@ -116,35 +105,34 @@ elMain.addEventListener("click", function (e) {
                 "Content-Type": "aplication/json"
             },
         }).then(res => res.json())
-            .then((films) => {
+            .then((data) => {
                 const title = findElement("#title");
                 const subtitle = findElement("#subtitle");
                 const image = findElement("#images");
-                const date = findElement("#date");
-
+                const createdAt = findElement("#createdAt");
+                const imagess=findElement("#imagess")
+                
+                title.value = data.title;
+                subtitle.value = data.subtitle;
+                image.value = data.avatar;
+                createdAt.value =data.createdAt;
+                imagess.src = image.value;
+   
                 addBtn.addEventListener("click", function () {
                     const newPost = {
                         title: title.value,
                         subtitle: subtitle.value,
                         avatar: image.value,
-                        createdAt: date.value,
+                        createdAt: createdAt.value,
                     }
-
-                    title.textContent = newPost.title.value;
-                    subtitle.textContent = newPost.subtitle;
-                    image.textContent = newPost.avatar;
-                    date.textContent = newPost.createdAt;
-                    console.log(newPost.title, films.subtitle, films.avatar);
-                    console.log(title);
-
                     fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
-                        method: 'PUT',
+                        method: 'PUT', 
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify(newPost)
-                    }).then(res => res.json()).then(res => console.log("ishladi")
-                        // location.reload()
+                    }).then(res => res.json()).then(res => 
+                        location.reload()
                     )
                 })
             })
