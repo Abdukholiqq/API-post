@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,26 +9,51 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <title>Document</title>
 </head>
+
 <body>
-    
+
     <div class="sign-app">
-    
         <form aria-required="true" method="post"
             class="container form  d-flex flex-column w-25 text-center mt-5  gap-2 p-5 rounded-4 text-white"
-            style=" background-color: #44405a;">
-            <h1>Sign Up</h1>
-            <label for="email"  >E-pochta manzilingizni kiriting</label>
-            <input type="email"   name="email" id="email" placeholder="   e-mail">
+            style=" background-color: #44405a; position: relative;">
+            <button class=" exit bg-danger border-0 rounded-1"
+                style="position: absolute; right: 15px; top: 15px; width: 22px;">X</button>
+            <h1>Sign Up </h1>
+            <label for="email">E-pochta manzilingizni kiriting</label>
+            <input type="email" name="email" id="email" placeholder="   e-mail">
             <label for="number">Telefon raqmingizni kiriting</label>
             <input type="number" name="phone" id="number" placeholder="  xxx xx xxx xx xx">
             <label for="password">Parolingizni kiriting</label>
             <input type="password" name="password" id="password" placeholder="  *******">
             <button type="submit" class="sign-up btn p-2 mt-3 bg-primary rounded-4 border-0">Sign Up</button>
             <p style="display: none;" class="error-message text-danger"></p>
+            <div>Do have an account? <a style="cursor: pointer; text-decoration: none;"
+                    class="lgn text-info  fs-5 ms-3 ">Log in</a></div>
         </form>
-    
+    </div>
+    <!--  -->
+    <div class="logIn">
+        <form aria-required="true" method="post"
+            class="container login-form  d-flex flex-column w-25 text-center mt-5  gap-2 p-5 rounded-4 text-white"
+            style=" background-color: #44405a; position: relative;">
+            <button class=" back bg-danger border-0 rounded-1"
+                style="position: absolute; right: 15px; top: 15px; width: 22px;">X</button>
+            <h1>Log in</h1>
+            <label for="email">E-pochta manzilingizni kiriting</label>
+            <input type="email" name="email" id="email" placeholder="   e-mail">
+            <label for="number">Telefon raqmingizni kiriting</label>
+            <input type="number" name="phone" id="number" placeholder="  xxx xx xxx xx xx">
+            <label for="password">Parolingizni kiriting</label>
+            <input type="password" name="password" id="password" placeholder="  *******">
+            <button type="submit" class="login btn p-2 mt-3 bg-primary rounded-4 border-0">Log in</button>
+            <div>Don't have an account? <a style="cursor: pointer; text-decoration: none;"
+                    class="sgn text-info fs-5 ms-3 ">Sign up</a></div>
+            <p style="display: none;" class="err-message text-danger"></p>
+        </form>
+
     </div>
 
     <script src="../js/login.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,4 @@
-
- import { findElement } from "./findElement.js";
-// import {findElement} from "../js/findElement.js"
+ import { findElement } from "./findElement.js"; 
 const elMain = findElement(".main");
 const elTop = findElement(".top");
 const TopBtn = findElement(".top-btn")
@@ -42,7 +40,7 @@ addForm.addEventListener("submit", (e) => {
         const card = document.createElement("div");
         card.className = "card w-25  p-2 bg-secondary shadow bg-opacity-50 "
         card.innerHTML = `
-        <img class="w-100" style="height: 400px" src="${element.avatar}"></img>
+        <img class="w-100" style="height: 200px" src="${element.avatar}"></img>
         <div class="text-center p-2" >
         <h3 class="fs-5">${element.title}<h3/>
         <hr/>
