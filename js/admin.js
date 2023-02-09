@@ -138,7 +138,7 @@ elMain.addEventListener("click", function (e) {
         fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "aplication/json"
+                "Content-Type": "application/json"
             }
         }).then(() => {
             window.location.reload()
@@ -153,7 +153,7 @@ elMain.addEventListener("click", function (e) {
         fetch(`https://63c3b5c0a9085635752b7972.mockapi.io/create/${id}`, {
           method: "GET",
           headers: {
-            "Content-Type": "aplication/json",
+            "Content-Type": "application/json",
           },
         })
           .then((res) => res.json())
