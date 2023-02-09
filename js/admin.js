@@ -4,6 +4,7 @@ const elTop = findElement(".top");
 const TopBtn = findElement(".top-btn")
 const addForm = findElement("#form");
 const addBtn = findElement("#add-todo-btn");
+const elPopularPost = document.querySelector(".popular-post");
 
 //   >>   PUSH   <<
 addForm.addEventListener("submit", (e) => {
@@ -19,10 +20,10 @@ addForm.addEventListener("submit", (e) => {
         createdAt: elCreatedAt,
         avatar: elImg,
     }
- 
+    
     fetch("https://639f72975eb8889197fce7ef.mockapi.io/post/data", {
         method: "POST",
-        body:JSON.stringify(newTodo),
+        body: JSON.stringify(newTodo),
         headers: {
             "Content-type": "application/json; charset=UTF-8",
         },
@@ -32,11 +33,62 @@ addForm.addEventListener("submit", (e) => {
         })
     })
 
-    // GET
+//  GET   top   section
+
+let popularPosts = [];
+
+function renderPosts(array, parent = elPopularPost) {
+  const fragment = document.createDocumentFragment();
+  array.forEach((element) => {
+    const elPost = document.createElement("a");
+    elPost.className = "w-25 shadow  p-2 rounded-3 text-decoration-none   ";
+    elPost.innerHTML = `
+    <div class="">
+    <img src="${element.avatar}" alt = "image" width="150" height='120' />
+    <h5>${element.title}<h5/>
+    <hr/>
+    <p>${element.subtitle}<p/>
+    <hr/>
+    <div class="d-flex justify-content-center gap-3">
+       <button data-id="${element.id}"  class="delate w-50  rounded-2 bg-danger border-0" type="reset">Delete</button>
+       <button  data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${element.id}" class="edit w-50 rounded-2 bg-success bg-opacity-75  border-0">Edit</button>
+   </div>
+    <div/>
+    `;
+    fragment.appendChild(elPost); 
+    elPopularPost.appendChild(fragment);
+  });
+}
+
+const getData = async () => {
+  try {
+    const res = await fetch(
+      `https://639f72975eb8889197fce7ef.mockapi.io/post/data`
+      //   `https://63c3b5c0a9085635752b7972.mockapi.io/create`
+    );
+    const data = await res.json();
+    popularPosts = data;
+    renderPosts(popularPosts);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getData();
+
+
+
+
+
+
+
+
+    // GET    main section
     fetch("https://639f72975eb8889197fce7ef.mockapi.io/post/data")
     .then(res => res.json())
     .then(data =>  data.forEach(element => {
-       
+        console.log(element.title);
+        console.log(element.id);
         const card = document.createElement("div");
         card.className = "card w-25  p-2 bg-secondary shadow bg-opacity-50 "
         card.innerHTML = `
@@ -46,13 +98,13 @@ addForm.addEventListener("submit", (e) => {
         <hr/>
         <p class="fs-6">${element.subtitle}<p/>
         <hr/>
-    <p class="fs-6">${element.createdAt}<p/>
-    </div>
-    <div class="d-flex justify-content-center gap-3">
-       <button data-id="${element.id}"  class="delate w-50  rounded-2 bg-danger border-0" type="reset">Delete</button>
-       <button  data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${element.id}" class="edit w-50 rounded-2 bg-success bg-opacity-75  border-0">Edit</button>
-   </div>
-`
+        <p class="fs-6">${element.createdAt}<p/>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+        <button data-id="${element.id}"  class="delate w-50  rounded-2 bg-danger border-0" type="reset">Delete</button>
+        <button  data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${element.id}" class="edit w-50 rounded-2 bg-success bg-opacity-75  border-0">Edit</button>
+        </div>
+        `
         elMain.prepend(card)
     }));
 
@@ -81,6 +133,7 @@ addForm.addEventListener("submit", (e) => {
 elMain.addEventListener("click", function (e) {
     const TargetT = e.target;
     const id = e.target.dataset.id;
+    // console.log(id);
     if (TargetT.matches(".delate")) {
         fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
             method: "DELETE",
@@ -97,42 +150,46 @@ elMain.addEventListener("click", function (e) {
     if (TargetT.matches(".edit")) {
         const id = e.target.dataset.id;
         console.log(id);
-        fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "aplication/json"
-            },
-        }).then(res => res.json())
-            .then((data) => {
-                const title = findElement("#title");
-                const subtitle = findElement("#subtitle");
-                const image = findElement("#images");
-                const createdAt = findElement("#createdAt");
-                const imagess=findElement("#imagess")
-                
-                title.value = data.title;
-                subtitle.value = data.subtitle;
-                image.value = data.avatar;
-                createdAt.value =data.createdAt;
-                imagess.src = image.value;
-   
-                addBtn.addEventListener("click", function () {
-                    const newPost = {
-                        title: title.value,
-                        subtitle: subtitle.value,
-                        avatar: image.value,
-                        createdAt: createdAt.value,
-                    }
-                    fetch(`https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`, {
-                        method: 'PUT', 
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(newPost)
-                    }).then(res => res.json()).then(res => 
-                        location.reload()
-                    )
-                })
-            })
+        fetch(`https://63c3b5c0a9085635752b7972.mockapi.io/create/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "aplication/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const title = findElement("#title");
+            const subtitle = findElement("#subtitle");
+            const image = findElement("#images");
+            const createdAt = findElement("#createdAt");
+            const imagess = findElement("#imagess");
+
+            title.value = data.isTop;
+            subtitle.value = data.subtitle;
+            image.value = data.avatar;
+            createdAt.value = data.createdAt;
+            imagess.src = image.value;
+
+            addBtn.addEventListener("click", function () {
+              const newPost = {
+                title: title.value,
+                subtitle: subtitle.value,
+                avatar: image.value,
+                createdAt: createdAt.value,
+              };
+              fetch(
+                `https://639f72975eb8889197fce7ef.mockapi.io/post/data/${id}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(newPost),
+                }
+              )
+                .then((res) => res.json())
+                .then((res) => location.reload());
+            });
+          });
     }
 })
